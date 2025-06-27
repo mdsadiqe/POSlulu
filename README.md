@@ -1,93 +1,353 @@
-# INTL-SFCC-QA-Playwright
+# playwright-analytics-na
+This project leverages Playwright to perform end-to-end testing for our analytics-focused teams (DE, DAO, DCP). 
+It includes comprehensive configurations to ensure seamless testing across environments and browsers while adhering to 
+our best practices and standards.
 
+## Requirements
+Ensure the following dependencies are installed:
 
+- **Node.js**: Version 18 or later
+- **Yarn**: Version 1.22 or later
+- **Playwright**: Installed via Yarn (`yarn add @playwright/test`)
+- **Commitizen** and **Commitlint**: For commit message standardization
+- **Prettier**: For code formatting
+- **ESLint**: For linting, with our custom configurations
 
-## Getting started
+Ensure all packages and configurations are installed via (`yarn install`).
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Best Practices
+- **Code Quality**:
+    - Stick to **ESNext** standards.
+    - DO NOT duplicate code; abstract reusable logic into helper functions or modules.
+    - Use meaningful variable and function names.
+    - Always use camel casing for naming files, folders, methods/functions, and variables.
+- **Configuration Consistency**:
+    - Do not modify the provided configurations (tsconfig.json and playwright.config.ts), without team approval.
+    - Ensure ESLint and Prettier rules are followed by running checks before pushing code. Again, do not modify these without team approval.
+- **Git Practices**:
+    - Write clear and descriptive commit messages.
+    - Name branches after their respective JIRA ticket or the like.
+    - Rebase & merge instead of only merging for cleaner commit history.
+- **Documentation**:
+    - Use **JSDocs** to document functions, classes, and modules for better code understanding and maintenance.
+    - Add inline comments for complex logic to improve readability for team members and future developers.
+    - Well-documented code ensures faster onboarding for new team members and reduces knowledge silos.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
+### JSDoc Example
+When writing JSDocs, include `@param` tags to describe the parameters of a function. Here's an example:
+```javascript
+/**
+ * Calculates the sum of two numbers.
+ * @param {number} a - The first number.
+ * @param {number} b - The second number.
+ * @returns {number} The sum of the two numbers.
+ */
+function add(a, b) {
+  return a + b;
+}
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/lululemon/international-digital-technology/international-digital-martech-and-strat-sales-usa/intl-qa-automations/intl-sfcc-qa-playwright.git
-git branch -M main
-git push -uf origin main
+This ensures that any developer using the function knows what inputs are expected and what the function returns. 
+Incorporating such comments helps maintain clarity and reduces errors.
+
+## Version Requirements
+- **Node.js**: Version 16 or later
+- **Yarn**: Version 1.22 or later
+- **Playwright**: Latest stable version recommended
+
+## System Requirements
+- A system capable of running Node.js and modern web browsers.
+- Adequate resources for running Playwright tests (minimum 8GB RAM recommended).
+
+## Installation and Running Instructions
+1. Clone the repository:
+   ```bash
+   git clone https://gitlab.com/lululemon/global-digital-tech/sre-qa-automation/playwright-analytics-na.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd playwright-analytics-na
+   ```
+3. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+## Instructions for Running Tests Locally
+
+### Running Against a Specific Test Environment
+To run tests against a specific environment, update your URL as needed:
+```bash
+BASE_URL="https://qa13.lululemon.com" yarn test
 ```
 
-## Integrate with your tools
+### Running Against a Specific PR
+To run tests for a specific pull request:
+```bash
+PR_NUMBER=123 yarn test
+```
 
-- [ ] [Set up project integrations](https://gitlab.com/lululemon/international-digital-technology/international-digital-martech-and-strat-sales-usa/intl-qa-automations/intl-sfcc-qa-playwright/-/settings/integrations)
+### Running with Environment Variables
+Environment variables can be managed via `.env`, `env.ts`, or CI/CD pipelines.
 
-## Collaborate with your team
+- **.env**: Stores default local variables but should not include sensitive information like `SAUCE_USERNAME` or `SAUCE_ACCESS_KEY`. 
+- These values are securely derived from your local `~/.zshrc` file.
+  ```bash
+  BASE_URL="https://stage.lululemon.com"
+  ```
+- **env.ts**: Provides centralized access and validation for variables.
+  ```typescript
+  export const BASE_URL = process.env.BASE_URL || 'https://stage.lululemon.com';
+  ```
+- **GitLab CI/CD**: Overrides `.env` during pipeline runs.
+  ```yaml
+  variables:
+    BASE_URL: "https://qa14.lululemon.com"
+  ```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+To test with custom variables:
+```bash
+VARIABLE_NAME=value npx playwright test
+```
 
-## Test and Deploy
+### Running with Different Browsers
+Specify the browser for testing:
+```bash
+npx playwright test --project=chrome
+npx playwright test --project=firefox
+npx playwright test --project=webkit
+```
 
-Use the built-in continuous integration in GitLab.
+### Running Playwright in Different Modes
+- **With UI:**
+  ```bash
+  npx playwright test --ui
+  ```
+- **Without Browser (Headless):**
+  ```bash
+  npx playwright test --headless
+  ```
+- **With Browser (Headful):**
+  ```bash
+  npx playwright test
+  ```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+## Folder and File Structure
+### Overview
+```plaintext
+playwright-analytics-na
+  .sauce/
+    config.yml         # Sauce Labs configuration for cloud testing.
+  actions/
+    homePageActions.ts # Encapsulates actions and interactions for the home page.
+  APICalls/
+    apiCalls.ts       # Defines logic for API calls.
+  dist/               # Compiled JavaScript output.
+  node_modules/       # Project dependencies.
+  pages/
+    homePage.ts       # Represents the home page with element selectors.
+  support/
+    env.ts            # Centralized environment variable management.
+    helpers.ts        # Utility functions for tests.
+    testrailHelpers.ts # Helper functions for testrail.
+  tests/
+    configTest.spec.ts  # Test configuration validation.
+    helpers.spec.ts     # Tests for utility functions.
+    logHelpers.spec.ts  # Tests for log helper functions.
+    testrailUtils.spec.ts # Tests for testrail utility examples.
+  .env               # Local environment variables.
+  .gitignore         # Ignored files for version control.
+  .gitlab-ci.yml     # CI/CD pipeline configurations.
+  .prettierignore    # Files ignored by Prettier.
+  .prettierrc.cjs    # Prettier configuration.
+  .sauceignore       # Ignored files for Sauce Labs.
+  eslint.config.mjs  # ESLint configuration.
+  package.json       # Project metadata and scripts.
+  package-info.md    # Documentation for `package.json`.
+  playwright.config.ts # Playwright test configuration.
+  tsconfig.json      # TypeScript compiler configuration.
+  tsconfig-info.md   # Documentation for `tsconfig.json`.
+  yarn.lock          # Dependency lock file.
+```
 
-***
+## Linting and Prettier
+Run linting and formatting checks:
+```bash
+yarn lint
+```
+Format code with Prettier:
+```bash
+yarn prettier --write .
+```
 
-# Editing this README
+## Sauce Labs
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Setting Up Credentials
+To use Sauce Labs locally, you need to configure your Sauce Labs credentials. 
+Add the following to your `~/.zshrc` (or equivalent shell configuration file):
 
-## Suggestions for a good README
+```bash
+export SAUCE_USERNAME="your-username"
+export SAUCE_ACCESS_KEY="your-access-key"
+```
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+After adding the credentials locally, reload your shell configuration and run:
+```bash
+source ~/.zshrc
+```
 
-## Name
-Choose a self-explaining name for your project.
+### Setting Up Credential in Gitlab
+Coordinate with your project admin to set up variables like SauceLabs credential in Gitlab.
+(IE: @David Bustillos)
+#### Take note this has already been set up for this project.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Running Tests on Sauce Labs
+Run tests on Sauce Labs:
+```bash
+npx playwright test --config=sauce.config.ts
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Running Saucectl Locally
+To execute tests on Sauce Labs using `saucectl`, follow these steps:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+1. **Run Tests with Environment Variables**:
+   Pass `BASE_URL` and `SPEC_FILE` as environment variables to specify the environment and test suite:
+   ```bash
+   BASE_URL="https://stage.lululemon.com" SPEC_FILE="tests/sample.spec.ts" yarn test:sauce
+   ```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+2. **Enable Verbose Logging**:
+   Use the `--verbose` flag for detailed logs during execution:
+   ```bash
+   yarn test:sauce --verbose
+   ```
+### Running Saucectl in GitLab CI/CD
+1. **Trigger the Pipeline**:
+- Go to **CI/CD → Pipelines** in the GitLab UI.
+- Click **Run Pipeline**.
+- Override variables as needed:
+  ```yaml
+  variables:
+    BASE_URL: "https://qa14.lululemon.com"
+    SPEC_FILE: "tests/sample.spec.ts"
+  ```
+- Start the pipeline to kick off Saucectl tests.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Using `--dry-run`
+The `--dry-run` flag validates your `saucectl` configuration without running the tests. This is useful for debugging configuration issues, such as:
+- Invalid test paths.
+- Misconfigured environment variables.
+- Incorrect Sauce Labs credentials.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Example:
+```bash
+yarn test:sauce --dry-run
+```
+This ensures the configuration is correct before executing the full test suite.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### Viewing Logs
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+#### Sauce Labs Logs
+1. **Locally**:
+   When running `saucectl` locally, logs appear in the terminal. Use the `--debug` or `--verbose` flags for more detailed output.
+2. **In GitLab**:
+   Access the logs by:
+- Navigating to **CI/CD → Jobs**.
+- Selecting a specific job to view logs.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+#### Navigating to Sauce Labs from Logs
+1. **Locally**:
+- Copy the test URL from the logs when running `saucectl`.
+- Paste it into your browser to view detailed results in Sauce Labs.
+1. **In GitLab**:
+- Locate the Sauce Labs session link in the logs (if available).
+- Follow the link to view session details in Sauce Labs.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### Viewing Test Jobs in Sauce Labs
+To review your test runs in Sauce Labs:
+1. Log in to your Sauce Labs dashboard.
+2. Navigate to **Live → Automated Testing**.
+3. Filter by your project or username to find your test jobs.
+4. Select a test job to:
+- View video recordings.
+- Analyze logs.
+- Debug failures with screenshots or network requests (if applicable).
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+1. **Enable Debugging**:
+   Use the `--debug` flag to troubleshoot issues with configuration, or test failures:
+   ```bash
+   yarn test:sauce --debug
+   ```
+## TestRail
 
-## License
-For open source projects, say how it is licensed.
+## `testrail-uploader`
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+This project now uses `testrail-uploader`, an internal project that simplifies reporting test results to TestRail. 
+The integration is handled via GitLab CI/CD and ensures automated test results are uploaded after each pipeline run.
+
+### How It Works
+- The `.gitlab-ci.yml` file includes the `testrail-uploader` project and its configuration.
+- The `testrail-playwright` job runs Playwright tests and generates a JUnit report.
+- The `testrail-upload` job picks up the JUnit report and sends the results to TestRail.
+- TestRail-specific environment variables are configured in GitLab CI/CD and `.env` and defined in `env.ts` file.
+
+### Running Tests with TestRail Integration
+To ensure test results are uploaded to TestRail:
+1. Run Playwright tests using:
+   ```bash
+   yarn playwright test
+   ```
+2. The test results will be stored in `results/test-results.xml`.
+3. The CI/CD pipeline automatically uploads results to TestRail.
+
+### Required Environment Variables
+Use the following variables for your specs just like you would for your other ENV variables by importing them:
+```ini
+// Example:
+ENV.TR_PROJECT_ID=258
+ENV.TR_PROJECT_NAME="Digital Analytics and Optimization"
+```
+
+### Manually Uploading Test Results
+To manually upload test results (useful for local runs):
+```bash
+yarn test:testrail-upload
+```
+
+## Adding More Environment Variables
+To add new environment variables:
+1. **Update the `.env` File**:
+   Run the new variables:
+   ```bash
+   NEW_VARIABLE="value"
+   ```
+2. **Update `env.ts`**:
+   Import and validate the variable in the `ENV` object:
+   ```typescript
+   NEW_VARIABLE: getEnv('NEW_VARIABLE', 'default-value');
+   ```
+3. **Update GitLab CI/CD**:
+   Add the variable to `.gitlab-ci.yml`. This will add your variable to the Gitlab UI and can be used within your Gitlab jobs:
+   ```yaml
+   variables:
+     NEW_VARIABLE: "value"
+   ```
+
+These updates ensure consistent handling of new environment variables across local and CI/CD workflows.
+
+## Generating Reports Locally
+Generate Playwright reports:
+```bash
+npx playwright show-report
+```
+View reports in the `playwright-report` directory.
+
+## Troubleshooting
+- **Tests not running:** Ensure Node.js and Yarn versions meet the requirements.
+- **Environment variable issues:** Check `.env` or shell configuration.
+- **Browser installation errors:** Run `npx playwright install`.
+
+## Resources & Links
+- [Playwright Documentation](https://playwright.dev/docs/intro)
+- [Sauce Labs Documentation](https://docs.saucelabs.com/)
+- [ESLint Rules](https://eslint.org/docs/latest/rules/)
+- [Prettier Documentation](https://prettier.io/docs/en/)
