@@ -74,8 +74,8 @@ export default defineConfig({
     baseURL: ENV.BASE_URL,
     ignoreHTTPSErrors: true,
     screenshot: 'only-on-failure',
-    trace: 'on',   //ENV.BLOCK_ANALYTICS_CALLS ? 'off' : 'on-first-retry',
-    video: 'retain-on-failure'
+    trace: 'retain-on-failure',   //ENV.BLOCK_ANALYTICS_CALLS ? 'off' : 'on-first-retry',
+    video: 'retain-on-failure'  // The video is retained (saved) if the test fails.
   },
   
 });
