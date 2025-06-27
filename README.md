@@ -139,19 +139,25 @@ playwright-analytics-na
     config.yml         # Sauce Labs configuration for cloud testing.
   actions/
     homePageActions.ts # Encapsulates actions and interactions for the home page.
+    POManager.ts      # Serves as a centralized factory to manage and provide access to all page objects used in the test framework.
   APICalls/
     apiCalls.ts       # Defines logic for API calls.
   dist/               # Compiled JavaScript output.
   node_modules/       # Project dependencies.
   pages/
-    homePage.ts       # Represents the home page with element selectors.
+    homePageLocator.ts       # Represents the home page with element selectors.
   support/
+    baseSetup.ts     # Used for configuring the Playwright test environment like browser, etc
     env.ts            # Centralized environment variable management.
+    environment.ts  # Use to get environment values dynamically.
     helpers.ts        # Utility functions for tests.
+    my-reporter.ts   # The reporter runs outside the test code, listening to lifecycle events (start, pass, fail, etc.)
     testrailHelpers.ts # Helper functions for testrail.
+    utilities.ts    # Provides reusable static utility methods.
   tests/
     configTest.spec.ts  # Test configuration validation.
     helpers.spec.ts     # Tests for utility functions.
+    home.spec.ts    # Tests for home page of Lululemon app.
     logHelpers.spec.ts  # Tests for log helper functions.
     testrailUtils.spec.ts # Tests for testrail utility examples.
   .env               # Local environment variables.
