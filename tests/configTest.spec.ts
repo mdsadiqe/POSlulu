@@ -29,7 +29,7 @@ test.describe('Config Test Suite', () => {
     console.log(`Using BASE_URL: ${ENV.BASE_URL}`);
 
     // Navigate to the BASE_URL
-    await page.goto("ENV.BASE_URL");
+    await page.goto(ENV.BASE_URL);
     // Perform basic assertions
     expect(page.url()).toContain(ENV.BASE_URL);
   });

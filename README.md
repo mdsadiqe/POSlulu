@@ -117,6 +117,19 @@ npx playwright test --project=firefox
 npx playwright test --project=webkit
 ```
 
+### Running with Different Suite
+Specify the suite name for testing:
+```bash
+npx playwright test --grep "@smoke" --project=chrome
+npx playwright test --grep "@regression" --project=chrome
+```
+
+### Running specific test file
+Specify the test file name for testing:
+```bash
+npx playwright test tests/home.spec.ts --project=chrome
+```
+
 ### Running Playwright in Different Modes
 - **With UI:**
   ```bash
