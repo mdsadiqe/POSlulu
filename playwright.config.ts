@@ -1,6 +1,5 @@
 import { defineConfig } from '@playwright/test';
 import path from 'path';
-import { getBrowserProjects } from './support/baseSetup';
 import { fileURLToPath } from 'url';
 import { ENV } from './support/env';
 
@@ -14,7 +13,23 @@ export default defineConfig({
     ? { } // Exclude projects for Sauce Labs
     : {
       // Based on browser name this function will return configuration. 
-      projects: getBrowserProjects(browser),
+      projects: [
+        {
+          name: 'Chrome',
+          use: { browserName: 'chromium', channel: 'chrome', 
+            viewport: ENV.IS_DESKTOP ? null: { height: 896, width: 414 },  // viewport: null Tells Playwright not to resize the browser — use native window size
+            launchOptions: {args: ENV.IS_DESKTOP ? ['--start-maximized'] : [],},   //--start-maximized works only on Chromium and needs viewport: null.
+            },
+        },
+        {
+          name: 'Firefox',
+          use: { browserName: 'firefox', viewport: ENV.IS_DESKTOP ? { width: 1920, height: 1080 }: { height: 896, width: 414 }},
+        },
+        {
+          name: 'WebKit',
+          use: { browserName: 'webkit' , viewport: ENV.IS_DESKTOP ? { width: 1920, height: 1080 }: { height: 896, width: 414 }},
+        }
+      ]
     }),
 
   reporter: [

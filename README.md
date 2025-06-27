@@ -147,7 +147,6 @@ playwright-analytics-na
   pages/
     homePageLocator.ts       # Represents the home page with element selectors.
   support/
-    baseSetup.ts     # Used for configuring the Playwright test environment like browser, etc
     env.ts            # Centralized environment variable management.
     environment.ts  # Use to get environment values dynamically.
     helpers.ts        # Utility functions for tests.
