@@ -1,12 +1,14 @@
 {
-  "name": "playwright-analytics-na",
+  "name": "gspann-poc-automation-playwright",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@gitlab.com:lululemon/global-digital-tech/sre-qa-automation/playwright-analytics-na.git",
-  "author": "David Bustillos <davidbustillos@lululemon.com>",
+  "repository": "Will create and push the code.",
+  "author": "Atul Gupta <agupta9@lululemon.com>",
   "license": "MIT",
   "type": "module",
   "scripts": {
+    "smokeTest": "npx playwright test --grep @smoke --project=Chrome",
+    "regressionTest": "npx playwright test --grep @regression --project=Chrome",
     "prebuild": "rm -rf dist",
     "pretest": "yarn build",
     "build": "tsc",
@@ -25,6 +27,7 @@
     "@commitlint/config-conventional": "^19.6.0",
     "@playwright/test": "^1.53.1",
     "@types/node": "^22.13.1",
+    "@types/xlsx": "^0.0.35",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
     "dotenv-cli": "^7.4.4",
@@ -60,7 +63,9 @@
     "@saucelabs/bin-wrapper": "^2.1.1",
     "adm-zip": "^0.5.16",
     "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
     "saucectl": "^0.191.0",
-    "tar-stream": "^3.1.7"
+    "tar-stream": "^3.1.7",
+    "xlsx": "^0.18.5"
   }
 }

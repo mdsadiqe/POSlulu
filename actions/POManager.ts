@@ -18,17 +18,26 @@
 
 
 
-import { Page } from '@playwright/test';
+import { BrowserContext, Page } from '@playwright/test';
 import { HomePage } from './homePageActions';
+
 
 export class POManager {
   private page: Page;
+  private context: BrowserContext;
+ 
+  
+  
 
-  constructor(page: Page) {
+  constructor(page: Page, context: BrowserContext) {
     this.page = page;
+    this.context= context;
   }
 
   getHomePage(): HomePage {
-    return new HomePage(this.page);;
+    return new HomePage(this.page, this.context);;
   }
+
+
+
 }

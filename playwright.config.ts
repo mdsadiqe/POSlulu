@@ -5,13 +5,10 @@ import { ENV } from './support/env';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const isSauceRun = process.env.SAUCE_RUN === 'true'; // Check if running on Sauce Labs
 const browser = process.env.BROWSER; 
 
 export default defineConfig({
-  ...(isSauceRun
-    ? { } // Exclude projects for Sauce Labs
-    : {
+  ...({
       // Based on browser name this function will return configuration. 
       projects: [
         {
@@ -57,7 +54,7 @@ export default defineConfig({
     ],
   ],
 
-  retries: isSauceRun ? 0 : ENV.IS_DESKTOP ? 2 : 1,
+  retries: ENV.IS_DESKTOP ? 2 : 1,
 
   testDir: './tests',
 

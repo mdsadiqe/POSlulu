@@ -35,20 +35,6 @@ const getEnv = (key: string, defaultValue: string = ''): string => {
   return value;
 };
 
-// -------------------- TESTRAIL CONFIGURATION --------------------
-
-/**
- * TestRail Project ID and Name
- * These values should be set in the GitLab pipeline variables or a `.env` file.
- * If they are not set, the TestRail uploader will be disabled, and a warning will be logged.
- */
-export const TR_PROJECT_ID = getEnv('TR_PROJECT_ID');
-export const TR_PROJECT_NAME = getEnv('TR_PROJECT_NAME');
-
-if (!TR_PROJECT_ID || !TR_PROJECT_NAME) {
-  console.warn('WARNING: TR_PROJECT_ID or TR_PROJECT_NAME is not set. TestRail results will not be uploaded.');
-}
-
 // -------------------- ENVIRONMENT CONFIGURATION --------------------
 
 /**
@@ -58,9 +44,9 @@ if (!TR_PROJECT_ID || !TR_PROJECT_NAME) {
 export const ENV = {
   /**
    * The base URL of the application.
-   * Defaults to "https://stage.lululemon.com".
+   * Defaults to "https://preview.lululemon.com".
    */
-  BASE_URL: getEnv('BASE_URL', 'https://stage.lululemon.com'),
+  BASE_URL: getEnv('BASE_URL', 'https://preview.lululemon.com'),
 
   /**
    * Determines if analytics calls should be blocked.
@@ -97,24 +83,4 @@ export const ENV = {
    * Defaults to an empty string.
    */
   NETWORK_URL: getEnv('NETWORK_URL', ''),
-
-  /**
-   * Pull Request number for tracking or testing.
-   * Defaults to an empty string.
-   */
-  PR_NUMBER: getEnv('PR_NUMBER', ''),
-
-  /**
-   * Sauce Labs access key.
-   * Defaults to an empty string.
-   */
-  SAUCE_ACCESS_KEY: getEnv('SAUCE_ACCESS_KEY', '2f7e4e78-de8e-4880-8c9a-93c9ee739d8d'),
-
-  /**
-   * Sauce Labs username.
-   * Defaults to an empty string.
-   */
-  SAUCE_USERNAME: getEnv('SAUCE_USERNAME', 'agupta9'),
-
-  LOWER_AUTH: getEnv('LOWER_ENV_AUTH', 'defaultBasicAuth'),
 };

@@ -4,24 +4,20 @@
  * This file defines environment-specific variables such as base URLs, credentials,
  * and flags for test execution.
  */
-import appTestDataRaw from '../testData/appTestData.json' assert { type: 'json' };
-const appTestData = JSON.parse(JSON.stringify(appTestDataRaw));
-import { ENV } from './env';
-import { Utilities } from './utilities';
 
 
 export class Environment {
   static getEnvironment(locale: string): string {
-    const decoded = Utilities.decodeBase64(ENV.LOWER_AUTH);
     switch (locale) {
-      case 'DE':
-        return appTestData.dedevurl.replace('basicaut', decoded);
-      case 'AU':
-        return appTestData.audevurl.replace('basicaut', decoded);
-      case 'FR':
-        return appTestData.frdevurl.replace('basicaut', decoded);
+      case 'standard':
+        return "https://shop.lululemon.com";
+        
+      case 'markdown':
+        return "https://shop.lululemon.com/p/men-ss-tops/Heavyweight-Cotton-Jersey-T-Shirt-MD/_/prod11700266?color=69122";
+      case 'newness':
+        return "https://shop.lululemon.com/p/mens-button-down-shirts/Brushed-Woven-Overshirt/_/prod11800777?color=69257";
       default:
-        return appTestData.audevurl.replace('basicaut', decoded);
+        return "https://shop.lululemon.com";
     }
   }
 
