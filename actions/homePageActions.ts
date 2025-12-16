@@ -54,11 +54,13 @@ export class HomePage {
 
   async navigateToNewTab(productLocator: any) {
     // let newPage;
+    const userSystem = process.platform === 'darwin'? 'Meta' : 'Control';
     const [newPage] = await Promise.all([
-      this.context.waitForEvent('page', { timeout: 5000 }),
-      productLocator.click({ modifiers: ['Meta'] })
+      this.context.waitForEvent('page', { timeout: 2000 }),
+      productLocator.first().click({ modifiers: [userSystem] })
     ])
-
+    console.log(`User runing a script on: ${userSystem}`);
+    
     return newPage;
    
   }
@@ -122,7 +124,7 @@ export class HomePage {
     let lastHeight = 0;
     let count = 0;
     // console.log('while status', found);
-
+    
     while (!found) {
       // Check if product exists
       const productLocator =  this.page.locator(HomePageLocator.expProductDisplay(productName));
@@ -142,7 +144,7 @@ export class HomePage {
       
       // console.log('Starting scroll to load more products...');
       // Scroll to bottom to trigger lazy loading
-      
+      console.log('Total products are available on category page:',await this.page.locator('//div[@data-testid="product-tile"]').count());
       const currentHeight = await this.page.evaluate(() => document.body.scrollHeight);
       await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
       await this.page.waitForTimeout(2000); // Wait for lazy load
@@ -175,10 +177,12 @@ export class HomePage {
       lastHeight = newHeight;
       console.log('counting scrolls', count);
       
-      if (count >3) { // safety to avoid infinite loop
-      found = await this.searchProductById(mdProductId, productName, newPage);
-      console.log('Search performed by PID', found);
-      }
+      
+    
+      // if (count >3) { // safety to avoid infinite loop
+      // found = await this.searchProductById(mdProductId, productName, newPage);
+      // console.log('Search performed by PID', found);
+      // }
     }
     return newPage;
     
@@ -212,7 +216,7 @@ export class HomePage {
     const homePagePopUp = newTab.locator(HomePageLocator.markdownHomePagePopUp);
     try {
     // Wait up to 5 seconds for popup to be visible
-    await homePagePopUp.waitFor({ state: "visible", timeout: 5000 });
+    await homePagePopUp.waitFor({ state: "visible", timeout: 2000 });
     // If visible, click close button
     await newTab.locator(HomePageLocator.modalCloseButton).click();
     } catch {
