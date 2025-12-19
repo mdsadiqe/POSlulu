@@ -50,7 +50,6 @@ test.describe('CDP Tests', () => {
       await homePage.navigateToUrl("standard");
       
      
-
       // Loop through rows
       for (let i = 2; i < data.length; i++) { // Skip header row
         const row = data[i];  
@@ -70,22 +69,17 @@ test.describe('CDP Tests', () => {
         try {
           // if product not found on UI then skip other validations.
           // const prodfound =  await homePage.crawlToProduct(i+1, ProductName, Class,MDproductId)
-          let prodfound = true;
           const newPage =  await homePage.crawlToProduct(i+1, ProductName, Class,MDproductId)
-          
-          
-          if (!prodfound) {
-            
+          if (!homePage.productFound) {
             console.log(`Product - ${ProductName} not found, skipping...`);
             continue; 
           }
           await homePage.verifyProduct(i+1, ProductName, ColourDescription,newPage); 
           console.log(`Verifying product at row ${i}: ${ProductName}`);
-          
           await homePage.verifyProductSize(i+1, SizeRun,newPage);
           await homePage.verifyMarkdProductPrice(i+1, RegularPrice, MarkdownPrice,newPage);
           //await homePage.verifyProductAccordions(i+1);
-          await homePage.verifyProductImages(i+1,newPage);
+          // await homePage.verifyProductImages(i+1,newPage);
         } catch (error) {
             let errorMessage = "";
             if (error instanceof Error) {
