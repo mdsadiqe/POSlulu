@@ -36,6 +36,7 @@ export class HomePageLocator {
   static readonly carouselImage = "//div[starts-with(@class,'carousel_thumbnailsContainer')]//button/picture";
   static readonly whyWeMadeThisImage = "//div[@data-testid='why-we-made-this']//picture/img";
   static readonly globalSearchBox = "nav-desktop-search"
+  static readonly availableColorUI = '//div[@aria-label="Select colour"]//picture/img'
 
   static expColor(title: string) {
         return `div[data-testid="hovercontainer"] picture img[title="${title}"]`;

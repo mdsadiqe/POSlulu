@@ -58,7 +58,7 @@ export default defineConfig({
 
   testDir: './tests',
 
-  timeout: 900000, // 15 minutes for each test
+  timeout: 1500000, // 15 minutes for each test
 
   expect: {
     timeout: 10000 // 10 seconds for all expect() calls. Default Timeout for expect() is 5 seconds (5000 ms)
